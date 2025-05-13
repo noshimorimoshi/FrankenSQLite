@@ -1,0 +1,3 @@
+- вероятно, базовые цены, а не конкретные предложения
+- может быть, это атрибут?
+- встречается как минимум здесь: [[product_offer]].price; [[basket]].total_price; [[order]].total_price; [[basket_item]].total_price  - может трибут?

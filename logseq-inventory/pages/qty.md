@@ -1,0 +1,2 @@
+- qty - это количество в [[order]]/[[offer]] ???
+- qty встречается как атрибут [[product_inventory]]

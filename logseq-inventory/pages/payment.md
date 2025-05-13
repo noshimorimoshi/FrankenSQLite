@@ -1,0 +1,8 @@
+- Связан с → [[order]]
+- payment - оплата по заказу
+- Атрибуты::
+	- method
+	- paid_at
+	- amount
+-
+-

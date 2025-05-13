@@ -1,0 +1,9 @@
+- Связан с → [[product]]
+- offer - предложения конкретного продавца/канала
+- Атрибуты::
+	- product_id
+	- price
+	- price_competitors
+	- status
+	- available
+	- channel

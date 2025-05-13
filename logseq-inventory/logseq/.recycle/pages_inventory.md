@@ -1,0 +1,8 @@
+- Связан с → [[product]]
+- Атрибуты::
+	- product_id
+	- warehouse_id
+	- stock_qty
+	- reserved_qty
+	- location
+- product inventory - наличие на складе.

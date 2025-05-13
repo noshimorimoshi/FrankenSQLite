@@ -1,0 +1,9 @@
+- остатки на складах, связан с [[product]]
+- Связан с → [[product]]
+- Атрибуты::
+	- product_id
+	- warehouse_id
+	- stock_qty
+	- reserved_qty
+	- location
+- product_inventory - наличие на складе.
