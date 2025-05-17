@@ -32,6 +32,7 @@ erDiagram
         int qty
         decimal price_per_item
         decimal subtotal
+        decimal cost_of_goods_sold
     }
 
     basket {
@@ -39,6 +40,7 @@ erDiagram
         int user_account_id FK
         datetime created_at
         datetime updated_at
+        decimal total_amount
     }
 
     basket_item {
@@ -47,6 +49,9 @@ erDiagram
         int product_id FK
         int qty
         datetime added_at
+        decimal price_at_add
+        decimal subtotal
+        int queue_id FK "Nullable: Origin from queue"
     }
 
     competitor_price {
@@ -89,18 +94,75 @@ erDiagram
         datetime shipped_at
         datetime delivered_at
         string tracking_number
+        decimal shipping_cost
+    }
+
+    offer {
+        int id PK
+        int product_id FK
+        string channel
+        decimal price
+        string status
+        boolean available
+        decimal acquisition_cost
+    }
+
+    catalog {
+        int id PK
+        int product_id FK
+        string name
+        string url
+        string model
+        decimal cost
+        string category
+        string brand
+        text description
+        string barcode
+        string vendor_code
+    }
+
+    product_inventory {
+        int id PK
+        int product_id FK
+        int warehouse_id FK
+        int stock_qty
+        int reserved_qty
+        string location
+    }
+
+    warehouse {
+        int id PK
+        string name
+    }
+
+    queue {
+        int id PK
+        int product_id FK
+        string priority
+        string status
+        datetime created_at
+        int assigned_to_user_account_id FK "Assigned user"
+        string type
+        text note
     }
 
     user_account ||--o{ order : places
     user_account ||--o{ basket : has
+    user_account ||--o{ queue : assigned_to
     order ||--o{ order_item : contains
     order ||--o{ payment : has
     order ||--o{ shipment : has
     product ||--o{ order_item : is_part_of
     product ||--o{ basket_item : is_in
     product ||--o{ competitor_price : has
+    product ||--o{ offer : has_offer
+    product ||--o{ catalog : has_entry
+    product ||--o{ product_inventory : has_inventory
+    product ||--o{ queue : is_queued
     basket ||--o{ basket_item : contains
     pay_method ||--o{ payment : used_for
     wallet ||--o{ pay_method : linked_to
     currency ||--o{ pay_method : uses
+    warehouse ||--o{ product_inventory : stores
+    queue ||--o{ basket_item : becomes_item
 ```
