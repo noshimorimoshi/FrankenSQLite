@@ -21,7 +21,7 @@ erDiagram
         int id PK
         int user_account_id FK
         datetime order_date
-        string status
+        int status_id FK "References status"
         decimal total_amount
     }
 
@@ -33,6 +33,7 @@ erDiagram
         decimal price_per_item
         decimal subtotal
         decimal cost_of_goods_sold
+        decimal sale_price
     }
 
     basket {
@@ -94,6 +95,7 @@ erDiagram
         datetime shipped_at
         datetime delivered_at
         string tracking_number
+        int status_id FK "References status"
         decimal shipping_cost
     }
 
@@ -154,13 +156,19 @@ erDiagram
         boolean is_active
         boolean requires_auth
         string usage_quota
-        string status
+        int status_id FK "References status, Nullable"
         string priority
         string type
         decimal time_response
         decimal uptime
         datetime created_at
         datetime last_used_at
+        decimal balance
+        text api_key "Nullable"
+        text cookie "Nullable"
+        string last_used_ip "Nullable"
+        datetime last_used_time "Nullable"
+        int cashback_service_id FK "References web_service, Nullable"
     }
 
     box {
@@ -172,6 +180,22 @@ erDiagram
         datetime created_at
     }
 
+    status {
+        int id PK
+        string name
+        text description
+        string type "e.g., order, shipment, web_service"
+    }
+
+    login {
+        int id PK
+        string username
+        string password
+        string type "e.g., email, phone, username"
+        int box_id FK "Belongs to box"
+        int web_service_id FK "Nullable: Associated service"
+    }
+
     user_account ||--o{ order : places
     user_account ||--o{ basket : has
     user_account ||--o{ queue : assigned_to
@@ -179,6 +203,7 @@ erDiagram
     order ||--o{ order_item : contains
     order ||--o{ payment : has
     order ||--o{ shipment : has
+    order ||--o{ status : has_status
     product ||--o{ order_item : is_part_of
     product ||--o{ basket_item : is_in
     product ||--o{ competitor_price : has
@@ -190,6 +215,10 @@ erDiagram
     pay_method ||--o{ payment : used_for
     wallet ||--o{ pay_method : linked_to
     currency ||--o{ pay_method : uses
+    shipment ||--o{ status : has_status
     warehouse ||--o{ product_inventory : stores
     queue ||--o{ basket_item : becomes_item
+    box ||--o{ login : contains
+    web_service ||--o{ login : associated_with
+    web_service }o--|| web_service : offers_cashback
 ```
