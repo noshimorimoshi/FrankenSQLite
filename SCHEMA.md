@@ -146,9 +146,36 @@ erDiagram
         text note
     }
 
+    web_service {
+        int id PK
+        string name
+        string url
+        string category
+        boolean is_active
+        boolean requires_auth
+        string usage_quota
+        string status
+        string priority
+        string type
+        decimal time_response
+        decimal uptime
+        datetime created_at
+        datetime last_used_at
+    }
+
+    box {
+        int id PK
+        int user_account_id FK
+        string name
+        string type
+        text details
+        datetime created_at
+    }
+
     user_account ||--o{ order : places
     user_account ||--o{ basket : has
     user_account ||--o{ queue : assigned_to
+    user_account ||--o{ box : has
     order ||--o{ order_item : contains
     order ||--o{ payment : has
     order ||--o{ shipment : has
