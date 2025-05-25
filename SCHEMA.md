@@ -47,6 +47,7 @@ erDiagram
         datetime created_at
         datetime updated_at
         decimal total_amount
+        string strategy "Например: Для купона X, Сравнение с Market B, Плановый заказ" "Nullable"
     }
 
     basket_item {
@@ -151,11 +152,18 @@ erDiagram
         int id PK
         int product_id FK
         int status_id FK "References status"
-        string priority "Consider linking to a priority table"
+        int priority_id FK "References priority"
         datetime created_at
         int assigned_to_user_account_id FK "Nullable: Assigned user"
         string type "e.g., kanban"
         text note "Nullable"
+    }
+
+    priority {
+        int id PK
+        string name "Например: Низкий, Средний, Высокий"
+        int level "Числовой уровень для сортировки (например, 1=Низкий, 10=Высокий)"
+        text description "Опциональное описание уровня" "Nullable"
     }
 
     web_service {
@@ -249,6 +257,7 @@ erDiagram
     warehouse ||--o{ product_inventory : stores
     queue ||--|| status : has_status
     queue ||--o{ basket_item : becomes_item
+    queue ||--|| priority : has_priority
     box }o--|| address : has_address
     box ||--o{ login : contains
     web_service ||--o{ login : associated_with
