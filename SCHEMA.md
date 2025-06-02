@@ -115,7 +115,7 @@ erDiagram
         int product_id FK
         string channel
         decimal price
-        string status "Consider linking to status table"
+        int status_id FK "References status"
         boolean available
         decimal acquisition_cost
     }
@@ -155,7 +155,6 @@ erDiagram
         int priority_id FK "References priority"
         datetime created_at
         int assigned_to_user_account_id FK "Nullable: Assigned user"
-        string type "e.g., kanban"
         text note "Nullable"
     }
 
@@ -175,7 +174,6 @@ erDiagram
         boolean requires_auth
         string usage_quota "Nullable"
         int status_id FK "Nullable: References status"
-        string priority "Consider linking to a priority table"
         string type "e.g., marketplace, cashback, sms"
         decimal time_response "Nullable"
         decimal uptime "Nullable"
@@ -187,6 +185,9 @@ erDiagram
         string last_used_ip "Nullable"
         datetime last_used_time "Nullable"
         int cashback_service_id FK "Nullable: References web_service"
+        rating NUMERIC "Nullable"
+        rating_justification TEXT "Nullable"
+        last_rating_update TIMESTAMP "Nullable"
     }
 
     box {
@@ -203,7 +204,7 @@ erDiagram
         int id PK
         string name
         text description "Nullable"
-        string type "e.g., order_shipment, queue, web_service"
+        string type "e.g., order, shipment, return_dispute, queue, web_service"
     }
 
     login {
@@ -268,4 +269,5 @@ erDiagram
     address ||--o{ order : is_billing_for
     address ||--o{ shipment : is_shipping_for
     address ||--o{ box : is_address_for
+    offer ||--|| status : has_status
 ```
