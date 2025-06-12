@@ -11,12 +11,13 @@ erDiagram
 
     product {
         int id PK
-        string name
-        text description
-        decimal price
+        string keyword
+        int wekan_task_id FK
         datetime created_at
         datetime updated_at
+        int wekan_priority "Nullable: Priority from Wekan"
     }
+
 
     order {
         int id PK
