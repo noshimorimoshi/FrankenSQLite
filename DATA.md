@@ -87,16 +87,16 @@
 
 #### Таблица: `queue` (создание/обновление)
 
-| id | product_id (FK) | status_id (FK) | priority_id (FK) | created_at | assigned_to_user_account_id (FK) | note |
-|----|-----------------|----------------|------------------|------------|----------------------------------|------|
-| queue_item_1 | 15 | 42 | 2 | [Timestamp] | [User ID] | 22 мая открыть спор для возврата средств |
-| queue_item_2 | 76 | 42 | 2 | [Timestamp] | [User ID] | 22 мая открыть спор для возврата средств |
-| queue_item_3 | 52 | 39 | 2 | [Timestamp] | [User ID] |  |
-| queue_item_4 | 4 | 41 | 3 | [Timestamp] | [User ID] | Продавец потребовал отмены. Получено 100 баллов |
-| queue_item_5 | 2 | 39 | 3 | [Timestamp] | [User ID] |  |
-| queue_item_6 | 20 | 39 | 2 | [Timestamp] | [User ID] |  |
-| queue_item_7 | 6 | 39 | 3 | [Timestamp] | [User ID] | -400 ПРОМОКОД COMBO |
-| queue_item_8 | 75 | 40 | 1 | [Timestamp] | [User ID] |  |
+| id | product_id (FK) | status_id (FK) | priority_id (FK) | created_at | note |
+|----|-----------------|----------------|------------------|------------|------|
+| queue_item_1 | 15 | 42 | 2 | 2024-05-21 10:00:00 | 22 мая открыть спор для возврата средств |
+| queue_item_2 | 76 | 42 | 2 | 2024-05-21 10:05:00 | 22 мая открыть спор для возврата средств |
+| queue_item_3 | 52 | 39 | 2 | 2024-08-16 10:00:00 | |
+| queue_item_4 | 4 | 41 | 3 | 2021-03-20 00:00:00 | Продавец потребовал отмены. Получено 100 баллов |
+| queue_item_5 | 2 | 39 | 3 | [Timestamp] | |
+| queue_item_6 | 20 | 39 | 2 | [Timestamp] | |
+| queue_item_7 | 6 | 39 | 3 | [Timestamp] | -400 ПРОМОКОД COMBO |
+| queue_item_8 | 75 | 40 | 1 | [Timestamp] | |
 
 ### Этап 2: Поиск/Эффективность (Заполнение таблиц `offer`, `competitor_price`)
 
@@ -122,7 +122,7 @@
 
 | id | username | password | email | created_at | default_shipping_address_id (FK) |
 |----|----------|----------|-------|------------|----------------------------------|
-|  |  |  |  |  |  |
+| [User ID] | | | | | |
 
 #### Таблица: `address` (создание/обновление)
 
@@ -138,14 +138,14 @@
 
 | id | user_account_id (FK) | created_at | updated_at | total_amount | strategy |
 |----|----------------------|------------|------------|--------------|----------|
-| basket_1 | [User ID из Этапа 3] | [Timestamp] | [Timestamp] | [Calculated Total] | Тестовый заказ - Сборка корзины |
+| basket_1 | [User ID] | [Timestamp] | [Timestamp] | [Calculated Total] | Тестовый заказ - Сборка корзины |
 
 #### Таблица: `basket_item` (создание/обновление)
 
-| id | basket_id (FK) | product_id (FK) | qty | added_at | price_at_add | subtotal | queue_id (FK) |
-|----|----------------|-----------------|-----|----------|--------------|----------|---------------|
-| basket_item_1 | basket_1 | 2 | 1 | [Timestamp] | 500.00 | 500.00 | queue_item_5 |
-| basket_item_2 | basket_1 | 6 | 1 | [Timestamp] | [Price of Медный провод] | [Subtotal] | queue_item_7 |
+| id | basket_id (FK) | product_id (FK) | qty | added_at | price_at_add | subtotal | queue_id (FK) | assigned_to_user_account_id (FK) |
+|----|----------------|-----------------|-----|----------|--------------|----------|---------------|----------------------------------|
+| basket_item_1 | basket_1 | 2 | 1 | [Timestamp] | 500.00 | 500.00 | queue_item_5 | [User ID] |
+| basket_item_2 | basket_1 | 6 | 1 | [Timestamp] | [Price of Медный провод] | [Subtotal] | queue_item_7 | [User ID] |
 
 ### Этап 5: Оплата/Кошелек (Заполнение таблиц `payment`, `pay_method`, `wallet`)
 
@@ -177,7 +177,7 @@
 
 | id | user_account_id (FK) | order_date | status_id (FK) | total_amount | shipping_address_id (FK) | billing_address_id (FK) |
 |----|----------------------|------------|----------------|--------------|--------------------------|-------------------------|
-|  | [User ID из Этапа 3] |  |  |  | [Address ID из Этапа 3] | [Address ID из Этапа 3] |
+|  | [User ID] |  |  |  | [Address ID из Этапа 3] | [Address ID из Этапа 3] |
 
 #### Таблица: `order_item` (создание/обновление - финальные данные элементов корзины)
 
@@ -190,4 +190,3 @@
 | id | order_id (FK) | shipped_at | delivered_at | tracking_number | status_id (FK) | shipping_cost | shipping_address_id (FK) |
 |----|---------------|------------|--------------|-----------------|----------------|---------------|--------------------------|
 |  | [Order ID из текущего Этапа 6] |  |  |  |  |  | [Address ID из Этапа 3] |
-
