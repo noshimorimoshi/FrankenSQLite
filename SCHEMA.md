@@ -60,6 +60,7 @@ erDiagram
         decimal price_at_add
         decimal subtotal
         int queue_id FK "Nullable: Origin from queue"
+        int assigned_to_user_account_id FK "Nullable: References user_account"
     }
 
     competitor_price {
@@ -155,7 +156,6 @@ erDiagram
         int status_id FK "References status"
         int priority_id FK "References priority"
         datetime created_at
-        int assigned_to_user_account_id FK "Nullable: Assigned user"
         text note "Nullable"
     }
 
@@ -232,9 +232,9 @@ erDiagram
 
     user_account ||--o{ order : places
     user_account ||--o{ basket : has
-    user_account ||--o{ queue : assigned_to
     user_account ||--o{ box : has
     user_account }o--|| address : has_default_shipping
+    user_account ||--o{ basket_item : is_assigned_to
     order ||--o{ order_item : contains
     order ||--o{ payment : has
     order ||--o{ shipment : has
