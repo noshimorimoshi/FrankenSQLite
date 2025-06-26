@@ -129,11 +129,26 @@ erDiagram
         string url
         string model
         decimal cost
-        string category
+        int breadcrumb_id FK "References breadcrumb"
         string brand
         text description
         string barcode "Nullable"
         string vendor_code "Nullable"
+    }
+
+    breadcrumb {
+        int id PK
+        int parent_id "Nullable: FK to self"
+        string name
+    }
+
+    media {
+        int id PK
+        int catalog_id FK
+        string type "CHECK('image', 'video', 'document')"
+        string url
+        string alt_text "Nullable"
+        int sort_order "DEFAULT 0"
     }
 
     product_inventory {
@@ -271,4 +286,7 @@ erDiagram
     address ||--o{ shipment : is_shipping_for
     address ||--o{ box : is_address_for
     offer ||--|| status : has_status
+    catalog ||--o{ media : has
+    catalog }|--|| breadcrumb : belongs_to
+    breadcrumb }o--|| breadcrumb : has_parent
 ```
