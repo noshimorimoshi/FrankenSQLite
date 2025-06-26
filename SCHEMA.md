@@ -48,7 +48,7 @@ erDiagram
         datetime created_at
         datetime updated_at
         decimal total_amount
-        string strategy "Например: Для купона X, Сравнение с Market B, Плановый заказ" "Nullable"
+        string strategy "Например: Для купона X, Сравнение с Market B, Плановый заказ (Nullable)"
     }
 
     basket_item {
@@ -178,7 +178,7 @@ erDiagram
         int id PK
         string name "Например: Низкий, Средний, Высокий"
         int level "Числовой уровень для сортировки (например, 1=Низкий, 10=Высокий)"
-        text description "Опциональное описание уровня" "Nullable"
+        text description "Опциональное описание уровня (Nullable)"
     }
 
     web_service {
