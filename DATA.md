@@ -104,8 +104,7 @@
 #### Таблица: `media`
 | id | catalog_id (FK) | type    | url                             | alt_text                      | sort_order |
 |----|-----------------|---------|---------------------------------|-------------------------------|------------|
-| 1  | 1               | 'image' | 'fitting_pcf_6-04_main.jpg'     | 'Главное изображение фитинга'   | 0          |
-| 2  | 1               | 'image' | 'fitting_pcf_6-04_dimensions.png'| 'Чертеж с размерами фитинга' | 1          |
+
 
 #### Таблица: `offer`
 | id | product_id (FK) | channel | price | status_id (FK) | available | acquisition_cost |
@@ -141,6 +140,7 @@
 |----|--------|------|----------------|-------------|---------|--------------|---------|
 
 ### Этап 3: Корзина
+*(Шаблоны таблиц без данных)*
 
 #### Таблица: `basket`
 | id | user_account_id (FK) | created_at | updated_at | total_amount | strategy |
@@ -166,6 +166,7 @@
 |----|------|---------|------------------|
 
 ### Этап 5: Оформление Заказа и Доставка
+*(Шаблоны таблиц без данных)*
 
 #### Таблица: `order`
 | id | user_account_id (FK) | order_date | status_id (FK) | total_amount | shipping_address_id (FK) | billing_address_id (FK) |
