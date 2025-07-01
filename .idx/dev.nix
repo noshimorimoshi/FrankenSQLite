@@ -9,12 +9,14 @@
     # pkgs.go
     # pkgs.python311
     # pkgs.python311Packages.pip
-    # pkgs.nodejs_20
+    pkgs.nodejs_20  # Для сборки среды, чтобы не падала
+
     # pkgs.nodePackages.nodemon
   ];
 
   # Sets environment variables in the workspace
-  env = {};
+  env = {
+  };
   idx = {
     # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
     extensions = [
@@ -42,13 +44,27 @@
     workspace = {
       # Runs when a workspace is first created
       onCreate = {
-        # Example: install JS dependencies from NPM
-        # npm-install = "npm install";
+        install-node24 = ''
+          if [ ! -x "$HOME/.local/node24/bin/node" ]; then
+            mkdir -p $HOME/.local/node24
+            curl -fsSL https://nodejs.org/dist/v24.3.0/node-v24.3.0-linux-x64.tar.xz | tar -xJ -C $HOME/.local/node24 --strip-components=1
+          fi
+
+          # Добавляем экспорт в .bashrc, если ещё нет
+          grep -qxF 'export PATH="$HOME/.local/node24/bin:$PATH"' ~/.bashrc || echo 'export PATH="$HOME/.local/node24/bin:$PATH"' >> ~/.bashrc
+
+          export PATH="$HOME/.local/node24/bin:$PATH"
+          echo "PATH=$PATH"  # для отладки
+          node -v
+        '';
       };
-      # Runs when the workspace is (re)started
+
       onStart = {
-        # Example: start a background task to watch and re-build backend code
-        # watch-backend = "npm run watch-backend";
+        set-path = ''
+          export PATH="$HOME/.local/node24/bin:$PATH"
+          echo "PATH=$PATH"  # для отладки
+          node -v
+        '';
       };
     };
   };
