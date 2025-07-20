@@ -10,10 +10,10 @@
 
 | pipeline_id | entity_table | entity_id | status_id | priority | last_updated_at | notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 1 | product | 4 | 48 | 6 | 2024-05-13T13:00:00Z | Priority sourced from Wekan |
-| 2 | product | 2 | 46 | 6 | 2024-05-13T12:00:00Z | Priority sourced from Wekan |
-| 3 | product | 6 | 46 | 5 | 2024-05-13T12:00:00Z | Priority sourced from Wekan |
-| 4 | product | 15 | 46 | 3 | 2024-05-13T12:00:00Z | Priority sourced from Wekan |
+| 1 | product | 4 | 49 | 6 | 2024-05-13T13:05:00Z | Priority sourced from Wekan |
+| 2 | product | 2 | 49 | 6 | 2024-05-13T13:15:00Z | Priority sourced from Wekan |
+| 3 | product | 6 | 49 | 5 | 2024-05-13T13:25:00Z | Priority sourced from Wekan |
+| 4 | product | 15 | 49 | 3 | 2024-05-13T13:35:00Z | Priority sourced from Wekan |
 | 5 | product | 20 | 46 | 3 | 2024-05-13T12:00:00Z | Priority sourced from Wekan |
 | 6 | product | 52 | 46 | 2 | 2024-05-13T12:00:00Z | Priority sourced from Wekan |
 | 7 | product | 75 | 46 | 1 | 2024-05-13T12:00:00Z | Priority sourced from Wekan |
