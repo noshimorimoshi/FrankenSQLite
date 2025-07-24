@@ -55,7 +55,7 @@ erDiagram
         datetime added_at
         decimal price_at_add
         decimal subtotal
-5559493710308215    }
+    }
 
     catalog {
         int id PK
@@ -63,7 +63,8 @@ erDiagram
         string name
         string url
         string model "Nullable"
-        decimal cost "Nullable"
+        decimal cost "Цена на витрине"
+        decimal final_cost "Цена после скидки продавца"
         int breadcrumb_id FK
         string brand "Nullable"
         text description "Nullable"

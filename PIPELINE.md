@@ -14,7 +14,7 @@
 | 2 | product | 2 | 49 | 6 | 2024-05-13T13:15:00Z | Priority sourced from Wekan |
 | 3 | product | 6 | 49 | 5 | 2024-05-13T13:25:00Z | Priority sourced from Wekan |
 | 4 | product | 15 | 49 | 3 | 2024-05-13T13:35:00Z | Priority sourced from Wekan |
-| 5 | product | 20 | 46 | 3 | 2024-05-13T12:00:00Z | Priority sourced from Wekan |
+| 5 | product | 20 | 48 | 3 | 2024-05-13T13:40:00Z | Priority sourced from Wekan |
 | 6 | product | 52 | 46 | 2 | 2024-05-13T12:00:00Z | Priority sourced from Wekan |
 | 7 | product | 75 | 46 | 1 | 2024-05-13T12:00:00Z | Priority sourced from Wekan |
 | 8 | product | 76 | 46 | 0 | 2024-05-13T12:00:00Z | Priority sourced from Wekan |
