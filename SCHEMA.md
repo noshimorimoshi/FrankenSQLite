@@ -63,21 +63,35 @@ erDiagram
         string name
         string url
         string model "Nullable"
-        decimal cost "Цена на витрине"
-        decimal final_cost "Цена после скидки продавца"
-        int breadcrumb_id FK
+        decimal cost "Цена на полке (list price)"
+        decimal seller_discount "Скидка продавца (сумма)"
+        decimal shipping_cost "Стоимость доставки"
         string brand "Nullable"
         text description "Nullable"
         string barcode "Nullable"
         string vendor_code "Nullable"
     }
 
-    competitor_price {
+    cashback_offer {
         int id PK
+        string source_type "'service' or 'bank'"
+        string source_name "'Letyshops', 'Tinkoff'"
+        string marketplace "'AliExpress', 'Ozon'"
+        string value_type "'percent' or 'fixed'"
+        decimal value
+        string conditions "Nullable"
+    }
+
+    catalog_breadcrumb {
         int catalog_id FK
-        string competitor_name
-        decimal price
-        datetime recorded_at
+        int breadcrumb_id FK
+        string breadcrumb_type "'marketplace', 'warehouse'"
+    }
+
+    breadcrumb {
+        int id PK
+        int parent_id FK "Nullable"
+        string name
     }
 
     payment {
@@ -129,12 +143,6 @@ erDiagram
         int status_id FK
         boolean available
         decimal acquisition_cost
-    }
-
-    breadcrumb {
-        int id PK
-        int parent_id FK "Nullable"
-        string name
     }
 
     media {
@@ -227,12 +235,13 @@ erDiagram
     
     catalog ||--o{ basket_item : can_be_in
     catalog ||--o{ order_item : can_be_in
-    catalog ||--o{ competitor_price : has
     catalog ||--o{ offer : has
     catalog ||--o{ product_inventory : has
     catalog ||--o{ media : has
-    catalog }|--|| breadcrumb : belongs_to
     
+    catalog }o--o{ catalog_breadcrumb : has_link
+    catalog_breadcrumb }o--o{ breadcrumb : is_linked_to
+
     breadcrumb }o--|| breadcrumb : has_parent
     
     basket ||--o{ basket_item : contains
