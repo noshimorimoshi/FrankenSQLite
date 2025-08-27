@@ -10,7 +10,7 @@
 
 | pipeline_id | entity_table | entity_id | status_id | priority | last_updated_at | notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 1 | product | 4 | 47 | 6 | | Priority sourced from Wekan |
+| 1 | product | 4 | 52 | 6 | | Priority sourced from Wekan |
 | 2 | product | 2 | 47 | 6 | | Priority sourced from Wekan |
 | 3 | product | 6 | 47 | 5 | | Priority sourced from Wekan |
 | 4 | product | 15 | 47 | 3 | | Priority sourced from Wekan |

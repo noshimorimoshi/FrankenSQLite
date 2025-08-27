@@ -82,6 +82,26 @@ erDiagram
         string conditions "Nullable"
     }
 
+    promotion {
+        int id PK
+        string name
+        string promotion_type "'coupon', 'bundle_deal', 'sitewide_sale'"
+        string discount_type "'fixed', 'percent'"
+        decimal discount_value
+        text conditions
+        string coupon_code "Nullable"
+        string marketplace
+        datetime start_date "Nullable"
+        datetime end_date "Nullable"
+        boolean is_active
+    }
+
+    product_promotion {
+        int product_id FK
+        int promotion_id FK
+        decimal relevance_score "Nullable"
+    }
+
     catalog_breadcrumb {
         int catalog_id FK
         int breadcrumb_id FK
@@ -232,6 +252,9 @@ erDiagram
     user_account }o--|| address : has_default_shipping
     
     product ||--o{ catalog : has_variations
+    product ||--o{ product_promotion : qualifies_for
+
+    promotion ||--o{ product_promotion : applies_to
     
     catalog ||--o{ basket_item : can_be_in
     catalog ||--o{ order_item : can_be_in
