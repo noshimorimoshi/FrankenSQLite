@@ -16,6 +16,7 @@ erDiagram
         datetime created_at
         datetime updated_at
         int wekan_priority "Nullable: Priority from Wekan"
+        string product_type "'good', 'subscription'"
     }
 
     order {
@@ -80,6 +81,7 @@ erDiagram
         string value_type "'percent' or 'fixed'"
         decimal value
         string conditions "Nullable"
+        int required_product_id FK "Nullable: References product"
     }
 
     promotion {
@@ -245,14 +247,27 @@ erDiagram
         int status_to_id FK
         datetime changed_at
     }
+
+    user_subscription {
+        int id PK
+        int user_account_id FK
+        int product_id FK
+        datetime activated_at
+        datetime expires_at
+        string status
+    }
     
     user_account ||--o{ order : places
     user_account ||--o{ basket : has
     user_account ||--o{ box : has
     user_account }o--|| address : has_default_shipping
+    user_account ||--o{ user_subscription : has
     
     product ||--o{ catalog : has_variations
     product ||--o{ product_promotion : qualifies_for
+    product ||--o{ user_subscription : is_a
+    
+    cashback_offer }o--|| product : requires
 
     promotion ||--o{ product_promotion : applies_to
     
