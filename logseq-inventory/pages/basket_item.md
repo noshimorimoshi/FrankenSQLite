@@ -1,9 +1,0 @@
-- Связан с → [[basket]], [[product]]
-- связывает [[basket]] и [[product]]
-- id:: 681f2721-5157-4854-a0fb-769d720b3268
-- Атрибуты::
-	- basket_id -
-	- product_id
-	- qty - количество
-	- price - цена в момент добавления
-	- discount - если есть
