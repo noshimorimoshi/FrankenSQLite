@@ -1,2 +1,0 @@
-- зависим от [[wallets]], [[currency]]
-- Атрибуты:: id, name (SBP, карта и т.п.), wallet_id, currency_id

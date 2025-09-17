@@ -1,4 +1,0 @@
-- product ~ карточка товара
-- Используется в → [[catalog]], [[product_inventory]], [[offer]]
-- Связи::
-	- Присутствует в [[basket_item]], [[order]]

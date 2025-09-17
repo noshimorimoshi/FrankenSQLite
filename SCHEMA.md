@@ -16,30 +16,26 @@ erDiagram
         datetime created_at
         datetime updated_at
         int wekan_priority "Nullable: Priority from Wekan"
+        string product_type "'good', 'subscription'"
     }
-
 
     order {
         int id PK
         int user_account_id FK
         datetime order_date
-        int status_id FK "References status"
+        int status_id FK
         decimal total_amount
-        int shipping_address_id FK "References address"
-        int billing_address_id FK "Nullable: References address"
+        int shipping_address_id FK
+        int billing_address_id FK "Nullable"
     }
 
     order_item {
         int id PK
         int order_id FK
-        int product_id FK
+        int catalog_id FK
         int qty
         decimal price_per_item
         decimal subtotal
-        decimal cost_of_goods_sold
-        decimal sale_price
-        decimal discount_amount "Nullable"
-        string discount_description "Nullable"
     }
 
     basket {
@@ -48,33 +44,82 @@ erDiagram
         datetime created_at
         datetime updated_at
         decimal total_amount
-        string strategy "Например: Для купона X, Сравнение с Market B, Плановый заказ (Nullable)"
+        string strategy "Nullable"
+        string basket_type "e.g., combo, nihao, main"
     }
 
     basket_item {
         int id PK
         int basket_id FK
-        int product_id FK
+        int catalog_id FK
         int qty
         datetime added_at
         decimal price_at_add
         decimal subtotal
-        int queue_id FK "Nullable: Origin from queue"
-        int assigned_to_user_account_id FK "Nullable: References user_account"
     }
 
-    competitor_price {
+    catalog {
         int id PK
         int product_id FK
-        string competitor_name
-        decimal price
-        datetime recorded_at
+        string name
+        string url
+        string model "Nullable"
+        decimal cost "Цена на полке (list price)"
+        decimal seller_discount "Скидка продавца (сумма)"
+        decimal shipping_cost "Стоимость доставки"
+        string brand "Nullable"
+        text description "Nullable"
+        string barcode "Nullable"
+        string vendor_code "Nullable"
+    }
+
+    cashback_offer {
+        int id PK
+        string source_type "'service' or 'bank'"
+        string source_name "'Letyshops', 'Tinkoff'"
+        string marketplace "'AliExpress', 'Ozon'"
+        string value_type "'percent' or 'fixed'"
+        decimal value
+        string conditions "Nullable"
+        int required_product_id FK "Nullable: References product"
+    }
+
+    promotion {
+        int id PK
+        string name
+        string promotion_type "'coupon', 'bundle_deal', 'sitewide_sale'"
+        string discount_type "'fixed', 'percent'"
+        decimal discount_value
+        text conditions
+        string coupon_code "Nullable"
+        string marketplace
+        datetime start_date "Nullable"
+        datetime end_date "Nullable"
+        boolean is_active
+    }
+
+    product_promotion {
+        int product_id FK
+        int promotion_id FK
+        decimal relevance_score "Nullable"
+    }
+
+    catalog_breadcrumb {
+        int catalog_id FK
+        int breadcrumb_id FK
+        string breadcrumb_type "'marketplace', 'warehouse'"
+    }
+
+    breadcrumb {
+        int id PK
+        int parent_id FK "Nullable"
+        string name
     }
 
     payment {
         int id PK
         int order_id FK
-        int pay_method_id FK "References pay_method"
+        int pay_method_id FK
         datetime paid_at
         decimal amount
         decimal cashback_received "Nullable"
@@ -83,16 +128,16 @@ erDiagram
     pay_method {
         int id PK
         string name
-        int wallet_id FK "Nullable: References wallet"
-        int currency_id FK "Nullable: References currency"
-        string details "e.g., last 4 digits of card, phone number"
+        int wallet_id FK "Nullable"
+        int currency_id FK "Nullable"
+        string details "e.g., last 4 digits"
     }
 
     wallet {
         int id PK
         string name
         decimal balance "Nullable"
-        int currency_id FK "Nullable: References currency"
+        int currency_id FK "Nullable"
     }
 
     currency {
@@ -107,53 +152,33 @@ erDiagram
         datetime shipped_at
         datetime delivered_at "Nullable"
         string tracking_number "Nullable"
-        int status_id FK "References status"
+        int status_id FK
         decimal shipping_cost
-        int shipping_address_id FK "References address"
+        int shipping_address_id FK
     }
 
     offer {
         int id PK
-        int product_id FK
+        int catalog_id FK
         string channel
         decimal price
-        int status_id FK "References status"
+        int status_id FK
         boolean available
         decimal acquisition_cost
-    }
-
-    catalog {
-        int id PK
-        int product_id FK
-        string name
-        string url
-        string model
-        decimal cost
-        int breadcrumb_id FK "References breadcrumb"
-        string brand
-        text description
-        string barcode "Nullable"
-        string vendor_code "Nullable"
-    }
-
-    breadcrumb {
-        int id PK
-        int parent_id "Nullable: FK to self"
-        string name
     }
 
     media {
         int id PK
         int catalog_id FK
-        string type "CHECK('image', 'video', 'document')"
+        string type
         string url
         string alt_text "Nullable"
-        int sort_order "DEFAULT 0"
+        int sort_order
     }
 
     product_inventory {
         int id PK
-        int product_id FK
+        int catalog_id FK
         int warehouse_id FK
         int stock_qty
         int reserved_qty
@@ -165,128 +190,111 @@ erDiagram
         string name
     }
 
-    queue {
-        int id PK
-        int product_id FK
-        int status_id FK "References status"
-        int priority_id FK "References priority"
-        datetime created_at
-        text note "Nullable"
-    }
-
-    priority {
-        int id PK
-        string name "Например: Низкий, Средний, Высокий"
-        int level "Числовой уровень для сортировки (например, 1=Низкий, 10=Высокий)"
-        text description "Опциональное описание уровня (Nullable)"
-    }
-
     web_service {
         int id PK
         string name
         string url "Nullable"
-        string category "Nullable"
         boolean is_active
-        boolean requires_auth
-        string usage_quota "Nullable"
-        int status_id FK "Nullable: References status"
-        string type "e.g., marketplace, cashback, sms"
-        decimal time_response "Nullable"
-        decimal uptime "Nullable"
+        int status_id FK "Nullable"
         datetime created_at
-        datetime last_used_at "Nullable"
-        decimal balance "Nullable"
-        text api_key "Nullable"
-        text cookie "Nullable"
-        string last_used_ip "Nullable"
-        datetime last_used_time "Nullable"
-        int cashback_service_id FK "Nullable: References web_service"
-        rating NUMERIC "Nullable"
-        rating_justification TEXT "Nullable"
-        last_rating_update TIMESTAMP "Nullable"
     }
 
     box {
         int id PK
         int user_account_id FK
         string name "Nullable"
-        string type "Nullable"
-        text details "Nullable"
-        datetime created_at
-        int address_id FK "Nullable: References address"
+        int address_id FK "Nullable"
     }
 
     status {
         int id PK
         string name
-        text description "Nullable"
-        string type "e.g., order, shipment, return_dispute, queue, web_service"
+        string description "Nullable"
+        string type
     }
 
     login {
         int id PK
         string username "Nullable"
         string password "Nullable"
-        string type "e.g., email, phone, username"
-        int box_id FK "Nullable: Belongs to box"
-        int web_service_id FK "Nullable: Associated service"
-        string phone_number "Nullable"
-        string email "Nullable"
+        int box_id FK "Nullable"
+        int web_service_id FK "Nullable"
     }
 
     address {
         int id PK
         string street
         string city
-        string state_province "Nullable"
         string postal_code "Nullable"
         string country
-        string building_apt "Nullable"
-        string details "Nullable"
     }
 
+    pipeline {
+        int pipeline_id PK
+        string entity_table
+        int entity_id
+        int status_id FK
+        int priority
+        datetime last_updated_at
+        string notes "Nullable"
+    }
+
+    tracker {
+        int log_id PK
+        string entity_table
+        int entity_id
+        int status_from_id FK
+        int status_to_id FK
+        datetime changed_at
+    }
+
+    user_subscription {
+        int id PK
+        int user_account_id FK
+        int product_id FK
+        datetime activated_at
+        datetime expires_at
+        string status
+    }
+    
     user_account ||--o{ order : places
     user_account ||--o{ basket : has
     user_account ||--o{ box : has
     user_account }o--|| address : has_default_shipping
-    user_account ||--o{ basket_item : is_assigned_to
+    user_account ||--o{ user_subscription : has
+    
+    product ||--o{ catalog : has_variations
+    product ||--o{ product_promotion : qualifies_for
+    product ||--o{ user_subscription : is_a
+    
+    cashback_offer }o--|| product : requires
+
+    promotion ||--o{ product_promotion : applies_to
+    
+    catalog ||--o{ basket_item : can_be_in
+    catalog ||--o{ order_item : can_be_in
+    catalog ||--o{ offer : has
+    catalog ||--o{ product_inventory : has
+    catalog ||--o{ media : has
+    
+    catalog }o--o{ catalog_breadcrumb : has_link
+    catalog_breadcrumb }o--o{ breadcrumb : is_linked_to
+
+    breadcrumb }o--|| breadcrumb : has_parent
+    
+    basket ||--o{ basket_item : contains
+    
     order ||--o{ order_item : contains
     order ||--o{ payment : has
     order ||--o{ shipment : has
-    order ||--|| status : has_status
-    order ||--|| address : has_shipping_address
-    order }o--|| address : has_billing_address
-    order_item ||--o{ status : has_status "If item has individual status"
-    product ||--o{ order_item : is_part_of
-    product ||--o{ basket_item : is_in
-    product ||--o{ competitor_price : has
-    product ||--o{ offer : has_offer
-    product ||--o{ catalog : has_entry
-    product ||--o{ product_inventory : has_inventory
-    product ||--o{ queue : is_queued
-    basket ||--o{ basket_item : contains
-    pay_method ||--o{ payment : used_for
-    pay_method }o--|| wallet : linked_to
-    pay_method }o--|| currency : uses
-    wallet }o--|| currency : uses
-    shipment ||--|| status : has_status
-    shipment ||--|| address : has_shipping_address
-    warehouse ||--o{ product_inventory : stores
-    queue ||--|| status : has_status
-    queue ||--o{ basket_item : becomes_item
-    queue ||--|| priority : has_priority
-    box }o--|| address : has_address
-    box ||--o{ login : contains
-    web_service ||--o{ login : associated_with
-    web_service }o--|| web_service : offers_cashback
-    web_service }o--|| status : has_status
-    address ||--o{ user_account : is_default_shipping_for
-    address ||--o{ order : is_shipping_for
-    address ||--o{ order : is_billing_for
-    address ||--o{ shipment : is_shipping_for
-    address ||--o{ box : is_address_for
-    offer ||--|| status : has_status
-    catalog ||--o{ media : has
-    catalog }|--|| breadcrumb : belongs_to
-    breadcrumb }o--|| breadcrumb : has_parent
+    order }|--|| status : has
+    order }|--|| address : ships_to
+    
+    pipeline ||--|| product : tracks_product_level_tasks
+    pipeline }|--|| status : has_status
+    
+    tracker ||--|| product : logs_for_product
+    tracker }|--|| status : logs_from
+    tracker }|--|| status : logs_to
+
 ```

@@ -1,3 +1,0 @@
-- ~ Связан с → [[qurey]], [[user]], [[project]]
-- Атрибуты:: id, name, url, category, is_active, requires_auth, usage_quota, status, priority, type; Метрики: time_response, uptime, created_at, last_used_at
--

@@ -1,7 +1,0 @@
-- Связан с → [[order]]
-- shipment - отгрузка по заказу
-- Атрибуты::
-	- order_id
-	- shipped_at
-	- delivered_at
-	- tracking_number
